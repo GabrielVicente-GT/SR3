@@ -1,7 +1,7 @@
 #Archivo gl solicitado por SR1
 
 #Importa el archivo proporcionado en clase
-import  Render 
+import  Render
 
 #Le asigna al renderizado global un render sencillo
 def glInit():
@@ -17,17 +17,17 @@ def glCreateWindow(width, height):
     #Si el ancho y alto cumplen con la condicion de que sean valores
     #modulos de 4 se crea el render, de otrao forma, se adaptan para que sean
     #modulos de 4
-    
+
     if width % 4 == 0 and height % 4 == 0:
         renderizado       = Render.Render(width,height)
     else:
         width   = width+width%4
         height  = height+height%4
         renderizado       = Render.Render(width,height)
-    
+
     widthFrame  = width
     heightFrame = height
-    
+
 #Se crea la ventana donde se trabajara el punto
 def glViewPort(x, y, width, height):
     global renderizado
@@ -37,7 +37,7 @@ def glViewPort(x, y, width, height):
     #Se crea desde la esquina inferior izquierda
     global xPositionVP
     global yPositionVP
-    
+
     #altura y ancho de viewport
     global widthVP
     global heightVP
@@ -59,7 +59,7 @@ def glViewPort(x, y, width, height):
         width = widthFrame - xPositionVP
     if (yPositionVP + height) > heightFrame:
         height = heightFrame - yPositionVP
-    
+
     widthVP     = width
     heightVP    = height
 
@@ -82,31 +82,31 @@ def glClearColor(r, g, b):
 def glVertex(x, y):
     global puntomedidoX
     global puntomedidoY
-    
+
     if y > 0:
         puntomedidoY = yPositionVP + round(heightVP/2) + round((heightVP/2)*y)
     elif y < 0:
         puntomedidoY = yPositionVP + round(heightVP/2) - round((heightVP/2)*(-y))
     elif y == 0:
         puntomedidoY = yPositionVP + round(heightVP/2)
-        
+
     if x > 0:
         puntomedidoX = xPositionVP + round(widthVP/2) + round((widthVP/2)*(x))
     elif x < 0:
         puntomedidoX = xPositionVP + round(widthVP/2) - round((widthVP/2)*(-x))
     elif x == 0:
         puntomedidoX = xPositionVP + round(widthVP/2)
-        
+
     # for xx in range(10):
     #     for yy in range (10):
     # # print(puntomedidoX,puntomedidoY)
     #         renderizado.point(923+xx,100+yy)
     if puntomedidoY == (yPositionVP +heightVP):
-        
+
         puntomedidoY = puntomedidoY -1
-        
+
     if puntomedidoX == (xPositionVP +widthVP):
-        
+
         puntomedidoX = puntomedidoX -1
     renderizado.point(puntomedidoX,puntomedidoY)
 
@@ -125,7 +125,7 @@ def escala(unitario, tipo):
     devolucion = 1
     a = 0
     b = 0
-    
+
     #Dependiendo si se calcula un punto respecto a la altura o el ancho
     if tipo == "W":
         a = widthVP
@@ -133,7 +133,7 @@ def escala(unitario, tipo):
     elif tipo == "H":
         a = heightVP
         b = yPositionVP
-        
+
     #El caso dependiendo si esta en el centro del eje, a la izquierda o a la derecha
     if unitario > 0:
         devolucion = b + round(a/2) + round((a/2)*(unitario))
@@ -141,21 +141,21 @@ def escala(unitario, tipo):
         devolucion = b + round(a/2) - round((a/2)*(-unitario))
     elif unitario == 0:
         devolucion = b + round(a/2)
-    
+
     #Si el valor calculado es igual al limite se le resta un pixel para que quede dentro del viewport
     if devolucion == (a + b):
         devolucion = devolucion -1
-        
+
     return devolucion
 
 def glLine(x0,y0,x1,y1):
     global renderizado
     #Se cambia el color para tener contraste
-    renderizado.set_color(Render.color(round(255*1), round(255*1), round(255*1)))
-    
+    renderizado.set_color(Render.color(round(255*0.98), round(255*0.62), round(255*0.1)))
+
     #Se realiza la conversión utilizando la funcion escala para convertir valores entre -1 y 1
     #A valores en pixeles
-    
+
     x0 = escala(x0,"W")
     y0 = escala(y0,"H")
     x1 = escala(x1,"W")
@@ -188,21 +188,21 @@ def glLine(x0,y0,x1,y1):
             renderizado.point(y, x)
         else:
             renderizado.point(x, y)
-            
+
         compensation += dy * 2
-        
+
         if compensation >= limitation:
             y += 1 if y0 < y1 else -1
             limitation += dx * 2
-            
+
 def glLine2(x0,y0,x1,y1):
     global renderizado
     #Se cambia el color para tener contraste
-    renderizado.set_color(Render.color(round(255*1), round(255*1), round(255*1)))
-    
+    renderizado.set_color(Render.color(round(255*0.98), round(255*0.62), round(255*0.1)))
+
     #Se realiza la conversión utilizando la funcion escala para convertir valores entre -1 y 1
     #A valores en pixeles
-    
+
     x0 = round(x0)
     y0 = round(y0)
     x1 = round(x1)
@@ -235,13 +235,12 @@ def glLine2(x0,y0,x1,y1):
             renderizado.point(y, x)
         else:
             renderizado.point(x, y)
-            
+
         compensation += dy * 2
-        
+
         if compensation >= limitation:
             y += 1 if y0 < y1 else -1
             limitation += dx * 2
-            
 
 
-    
+
