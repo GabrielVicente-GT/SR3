@@ -1,5 +1,5 @@
 #Gabriel Alejandro Vicente Lorenzo
-#SR1 UVG
+#SR3 UVG
 
 #Se importan los metodos solicitados por el ejercicios
 import gl
